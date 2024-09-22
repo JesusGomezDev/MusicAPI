@@ -1,0 +1,55 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ArtistType {
+  id: Int!
+  name: String!
+  listeners: Float!
+  playcount: Float!
+}
+
+type PaginatedArtistsType {
+  data: [ArtistType!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type TrackType {
+  id: Int!
+  artist: String!
+  album: String!
+  title: String!
+}
+
+type PaginatedTracksType {
+  data: [TrackType!]!
+  total: Int!
+  page: Int!
+  limit: Int!
+  totalPages: Int!
+}
+
+type Query {
+  getTracks(page: Int, limit: Int): PaginatedTracksType!
+  getTrack(id: Int!): TrackType!
+  getArtists(page: Int, limit: Int): PaginatedArtistsType!
+  getAritst(id: Int!): ArtistType!
+  getArtistByName(name: String!): ArtistType!
+}
+
+type Mutation {
+  postTrack(track: TrackInput!): TrackType!
+  createArtist(name: String!, listeners: Float!, playcount: Float!): ArtistType!
+  updateArtist(id: Int!, name: String!, listeners: Int!, playcount: Int!): ArtistType!
+  partialUpdateArtist(id: Int!, name: String, listeners: Int, playcount: Int): ArtistType!
+  deleteArtist(id: Int!): ArtistType!
+}
+
+input TrackInput {
+  title: String!
+  artist: String!
+  album: String!
+}

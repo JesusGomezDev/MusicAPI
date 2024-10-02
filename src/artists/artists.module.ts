@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { ArtistsResolver } from './artists.resolver';
 import { Artist } from './artist.entity';
 import { GraphQLModule } from '@nestjs/graphql';

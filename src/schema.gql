@@ -17,6 +17,21 @@ type PaginatedArtistsType {
   totalPages: Int!
 }
 
+type AlbumType {
+  id: Int!
+  artist: String!
+  title: String!
+  playcount: Float!
+}
+
+type PaginatedAlbumType {
+  data: [AlbumType!]!
+  limit: Int!
+  total: Int!
+  page: Int!
+  totalPages: Int!
+}
+
 type TrackType {
   id: Int!
   artist: String!
@@ -35,9 +50,13 @@ type PaginatedTracksType {
 type Query {
   getTracks(page: Int, limit: Int): PaginatedTracksType!
   getTrack(id: Int!): TrackType!
-  getArtists(page: Int, limit: Int): PaginatedArtistsType!
+  getArtists(page: Int, limit: Int, offset: Int): PaginatedArtistsType!
   getAritst(id: Int!): ArtistType!
   getArtistByName(name: String!): ArtistType!
+  getAlbums(page: Int, limit: Int, offset: Int): PaginatedAlbumType!
+  getAlbum(id: Int): AlbumType!
+  getAlbumByTitle(title: String): AlbumType!
+  getAlbumByArtist(artist: String!): PaginatedAlbumType!
 }
 
 type Mutation {
@@ -46,6 +65,10 @@ type Mutation {
   updateArtist(id: Int!, name: String!, listeners: Int!, playcount: Int!): ArtistType!
   partialUpdateArtist(id: Int!, name: String, listeners: Int, playcount: Int): ArtistType!
   deleteArtist(id: Int!): ArtistType!
+  createAlbum(artist: String!, title: String!, playcount: Int!): AlbumType!
+  updateAlbum(id: Int!, artist: String!, title: String!, playcount: Int!): AlbumType!
+  partialUpdateAlbum(id: Int!, artist: String, title: String, playcount: Int): AlbumType!
+  deleteAlbum(id: Int!): AlbumType!
 }
 
 input TrackInput {

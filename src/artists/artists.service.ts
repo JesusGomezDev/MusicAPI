@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Artist } from '../artists/artist.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Artist } from '../artists/artist.entity';
 import { ArtistInput, PaginatedArtists } from './artist.models';
 
 @Injectable()
@@ -11,10 +11,15 @@ export class ArtistsService {
         private readonly artistsRepository: Repository<Artist>,
     ) {}
 
-    async getArtists(page: number = 1, limit: number = 20): Promise<PaginatedArtists> {
+        async getArtists(page: number = 1, limit: number = 20, offset?: number): Promise<PaginatedArtists> {
+        let skip = (page - 1) * limit;
+        if (offset !== undefined) {
+            skip = offset;
+        }
+
         const [result, total] = await this.artistsRepository.findAndCount({
             take: limit,
-            skip: (page - 1) * limit,
+            skip: skip,
         });
 
         const totalPages = Math.ceil(total / limit);

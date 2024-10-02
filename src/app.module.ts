@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ArtistsModule } from './artists/artists.module';
-import { AlbumsModule } from './albums/albums.module';
+import { AlbumsModule } from './albums/albumes.module';
 import { TracksModule } from './tracks/tracks.module';
 
 @Module({

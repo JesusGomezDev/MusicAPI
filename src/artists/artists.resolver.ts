@@ -11,8 +11,9 @@ export class ArtistsResolver {
     getArtists(
         @Args('page', { type: () => Int, nullable: true }) page: number = 1,
         @Args('limit', { type: () => Int, nullable: true }) limit: number = 20,
+        @Args('offset', { type: () => Int, nullable: true }) offset?: number,
     ): Promise<PaginatedArtistsType> {
-        return this.artistsService.getArtists(page, limit);
+        return this.artistsService.getArtists(page, limit, offset);
     }
 
     @Query(returns => ArtistType)

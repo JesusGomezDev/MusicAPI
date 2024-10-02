@@ -18,8 +18,9 @@ export class ArtistsController {
     async getArtists(
         @Query('page') page: number = 1,
         @Query('limit') limit: number = 20,
+        @Query('offset') offset?: number,
     ): Promise<PaginatedArtists> {
-        return this.artistsService.getArtists(page, limit);
+        return this.artistsService.getArtists(page, limit, offset);
     }
 
     @Get(':id')

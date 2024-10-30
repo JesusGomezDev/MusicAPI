@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Album } from './album.entity';
@@ -87,7 +87,7 @@ export class AlbumesService {
         const requiredFields = ['artist', 'title', 'playcount'];
         for (const field of requiredFields) {
             if (!albumInput[field]) {
-                throw new BadRequestException(`Field ${field} is required`);
+                throw new HttpException(`Field ${field} is required`, HttpStatus.BAD_REQUEST);
             }
         }
 

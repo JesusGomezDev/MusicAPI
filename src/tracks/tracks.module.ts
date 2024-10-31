@@ -8,6 +8,9 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { TracksService } from './tracks.service';
+import { ApiKeysService } from 'src/api_keys/api_keys.service';
+import { ApiKeysGuard } from 'src/api_keys/api_keys.guard';
+import { ApiKey } from 'src/api_keys/api_key.entity';
 
 @Module({
     imports: [
@@ -15,9 +18,9 @@ import { TracksService } from './tracks.service';
             driver: ApolloDriver,
             autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
         }),
-        TypeOrmModule.forFeature([Track])
+        TypeOrmModule.forFeature([Track, ApiKey])
     ],
-    providers: [TracksService, TracksResolver],
+    providers: [TracksService, TracksResolver, ApiKeysService, ApiKeysGuard],
     controllers: [TracksController],
 })
 export class TracksModule {}

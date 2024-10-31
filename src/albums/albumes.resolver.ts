@@ -1,12 +1,15 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { AlbumesService } from './albumes.service';
 import { AlbumInput, AlbumType, PaginatedAlbumes, PaginatedAlbumType } from './album.models';
+import { UseGuards } from '@nestjs/common';
+import { ApiKeysGuard } from 'src/api_keys/api_keys.guard';
 
 @Resolver(of => AlbumType)
 export class AlbumResolver {
     constructor(private albumesService: AlbumesService) {}
 
     @Query(returns => PaginatedAlbumType)
+    @UseGuards(ApiKeysGuard)
     getAlbums(
         @Args('page', { type: () => Int, nullable: true }) page: number = 1,
         @Args('limit', { type: () => Int, nullable: true }) limit: number = 20,
@@ -16,6 +19,7 @@ export class AlbumResolver {
     }
 
     @Query(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     getAlbum(
         @Args('id', { type: () => Int, nullable: true }) id: number,
     ): Promise<AlbumType> {
@@ -23,6 +27,7 @@ export class AlbumResolver {
     }
 
     @Query(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     getAlbumByTitle(
         @Args('title', { type: () => String, nullable: true}) title: string,
     ): Promise<AlbumType> {
@@ -30,6 +35,7 @@ export class AlbumResolver {
     }
 
     @Query(returns => PaginatedAlbumType)
+    @UseGuards(ApiKeysGuard)
     getAlbumByArtist(
         @Args('artist') artist: string,
     ): Promise<PaginatedAlbumes> {
@@ -37,6 +43,7 @@ export class AlbumResolver {
     }
 
     @Mutation(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     createAlbum(
         @Args('artist') artist: string,
         @Args('title') title: string,
@@ -47,6 +54,7 @@ export class AlbumResolver {
     }
 
     @Mutation(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     updateAlbum(
         @Args('id', { type: () => Int }) id: number,
         @Args('artist') artist: string,
@@ -58,6 +66,7 @@ export class AlbumResolver {
     }
 
     @Mutation(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     partialUpdateAlbum(
         @Args('id', { type: () => Int }) id: number,
         @Args('artist', { nullable: true }) artist?: string,
@@ -69,6 +78,7 @@ export class AlbumResolver {
     }
 
     @Mutation(returns => AlbumType)
+    @UseGuards(ApiKeysGuard)
     deleteAlbum(
         @Args('id', { type: () => Int }) id: number,
     ): Promise<AlbumType> {

@@ -2,12 +2,15 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { PaginatedArtistsType, ArtistType, ArtistInput } from './artist.models';
 import { ArtistsService } from './artists.service';
+import { UseGuards } from '@nestjs/common';
+import { ApiKeysGuard } from 'src/api_keys/api_keys.guard';
 
 @Resolver(of => ArtistType)
 export class ArtistsResolver {
     constructor(private artistsService: ArtistsService) {}
 
     @Query(returns => PaginatedArtistsType)
+    @UseGuards(ApiKeysGuard)
     getArtists(
         @Args('page', { type: () => Int, nullable: true }) page: number = 1,
         @Args('limit', { type: () => Int, nullable: true }) limit: number = 20,
@@ -17,6 +20,7 @@ export class ArtistsResolver {
     }
 
     @Query(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     getAritst(
         @Args('id', { type: () => Int }) id: number,
     ): Promise<ArtistType> {
@@ -24,6 +28,7 @@ export class ArtistsResolver {
     }
 
     @Query(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     getArtistByName(
         @Args('name') name: string,
     ): Promise<ArtistType> {
@@ -31,6 +36,7 @@ export class ArtistsResolver {
     }
 
     @Mutation(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     createArtist(
         @Args('name') name: string,
         @Args('listeners') listeners: number,
@@ -41,6 +47,7 @@ export class ArtistsResolver {
     }
 
     @Mutation(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     updateArtist(
         @Args('id', { type: () => Int }) id: number,
         @Args('name') name: string,
@@ -52,6 +59,7 @@ export class ArtistsResolver {
     }
 
     @Mutation(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     partialUpdateArtist(
         @Args('id', { type: () => Int }) id: number,
         @Args('name', { nullable: true }) name?: string,
@@ -63,6 +71,7 @@ export class ArtistsResolver {
     }
 
     @Mutation(returns => ArtistType)
+    @UseGuards(ApiKeysGuard)
     deleteArtist(
         @Args('id', { type: () => Int }) id: number,
     ): Promise<ArtistType> {

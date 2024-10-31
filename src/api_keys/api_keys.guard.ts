@@ -1,5 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { ApiKeysService } from './api_keys.service';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { Request } from 'express';
 
 @Injectable()
@@ -7,7 +8,8 @@ export class ApiKeysGuard implements CanActivate {
   constructor(private readonly apiKeyService: ApiKeysService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: Request = context.switchToHttp().getRequest();
+    const ctx = GqlExecutionContext.create(context);
+    const request: Request = ctx.getContext().req || context.switchToHttp().getRequest();
     const apiKey = Array.isArray(request.headers['x-api-key']) ? request.headers['x-api-key'][0] : request.headers['x-api-key'];
 
     if (!apiKey) {
